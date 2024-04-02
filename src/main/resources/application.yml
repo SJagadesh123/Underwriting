@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Underwriting
+    name: underwriting
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
