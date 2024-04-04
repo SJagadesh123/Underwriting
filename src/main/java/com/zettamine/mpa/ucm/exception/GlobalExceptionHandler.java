@@ -59,4 +59,34 @@ public class GlobalExceptionHandler {
 
 		return ResponseEntity.badRequest().body(response);
 	}
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponseDto> handleException(Exception ex,
+			WebRequest webRequest) {
+		ErrorResponseDto response = new ErrorResponseDto();
+
+		String apiPath = webRequest.getDescription(false);
+
+		response.setApiPath(apiPath);
+		response.setErrorCode(HttpStatus.BAD_REQUEST);
+		response.setErrorMessage(ex.getMessage());
+		response.setErrorTime(LocalDateTime.now());
+
+		return ResponseEntity.badRequest().body(response);
+	}
+	
+	@ExceptionHandler(DuplicationException.class)
+	public ResponseEntity<ErrorResponseDto> handleDuplicationException(DuplicationException ex,
+			WebRequest webRequest) {
+		ErrorResponseDto response = new ErrorResponseDto();
+
+		String apiPath = webRequest.getDescription(false);
+
+		response.setApiPath(apiPath);
+		response.setErrorCode(HttpStatus.BAD_REQUEST);
+		response.setErrorMessage(ex.getMessage());
+		response.setErrorTime(LocalDateTime.now());
+
+		return ResponseEntity.badRequest().body(response);
+	}
 }
