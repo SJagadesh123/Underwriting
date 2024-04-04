@@ -10,4 +10,8 @@ import com.zettamine.mpa.ucm.entities.UnderwritingCompany;
 public interface UnderwritingCompanyRepository extends JpaRepository<UnderwritingCompany, Serializable> {
 
 	Optional<UnderwritingCompany> findByName(String name);
+	
+	Optional<UnderwritingCompany> findByEmail(String email);
+	
+	Optional<UnderwritingCompany> findByPhone(String phone);
 }

@@ -47,10 +47,10 @@ public class UnderwritingCompany extends BaseEntity {
 	@Column(name = "country", length = 100)
 	private String country;
 
-	@Column(name = "phone", length = 20)
+	@Column(name = "phone", length = 20, unique = true)
 	private String phone;
 
-	@Column(name = "email", length = 100)
+	@Column(name = "email", length = 100, unique = true)
 	private String email;
 
 	@Column(name = "website", length = 255)
