@@ -1,6 +1,8 @@
 package com.zettamine.mpa.ucm.service;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.zettamine.mpa.ucm.dto.UnderwritingCompanyDto;
 import com.zettamine.mpa.ucm.entities.UnderwritingCompany;
 import com.zettamine.mpa.ucm.exception.CompanyAlreadyExists;
+import com.zettamine.mpa.ucm.exception.DuplicationException;
 import com.zettamine.mpa.ucm.exception.ResourceNotFoundException;
 import com.zettamine.mpa.ucm.mapper.UnderwritingCompanyMapper;
 import com.zettamine.mpa.ucm.repository.UnderwritingCompanyRepository;
@@ -31,6 +34,16 @@ public class UnderwritingCompanyServiceImpl implements IUnderwritingCompanyServi
 
 		if (uwc.isPresent()) {
 			throw new CompanyAlreadyExists("Company exist with name " + name);
+		}
+		
+		if(underwritingCompanyRepository.findByEmail(underwritingCompanyDto.getEmail()).isPresent())
+		{
+			throw new DuplicationException("Company already exists with email : " + underwritingCompanyDto.getEmail());
+		}
+		
+		if(underwritingCompanyRepository.findByPhone(underwritingCompanyDto.getPhone()).isPresent())
+		{
+			throw new DuplicationException("Company already exists with phone : " + underwritingCompanyDto.getPhone());
 		}
 
 		toUpper(underwritingCompanyDto);
@@ -73,6 +86,40 @@ public class UnderwritingCompanyServiceImpl implements IUnderwritingCompanyServi
 			}
 
 		}
+	}
+
+	@Override
+	public UnderwritingCompanyDto get(Long uwcoId) {
+
+		UnderwritingCompany uwc = underwritingCompanyRepository.findById(uwcoId)
+				.orElseThrow(() -> new ResourceNotFoundException("Company Details not found with Id : " + uwcoId));
+
+		UnderwritingCompanyDto underwritingCompanyDto = UnderwritingCompanyMapper.toDto(uwc, new UnderwritingCompanyDto());
+		
+		return underwritingCompanyDto;
+	}
+
+	@Override
+	public List<UnderwritingCompanyDto> getAll() {
+
+		List<UnderwritingCompany> listOfUwc = underwritingCompanyRepository.findAll();
+		
+		if(listOfUwc.size() == 0)
+		{
+			throw new ResourceNotFoundException("There are no company present");
+		}
+		
+		List<UnderwritingCompanyDto> underwritingCompanyDtos = new ArrayList<>();
+		
+		for(UnderwritingCompany company : listOfUwc)
+		{
+			UnderwritingCompanyDto underwritingCompanyDto = UnderwritingCompanyMapper.toDto(company, new UnderwritingCompanyDto());
+			
+			underwritingCompanyDtos.add(underwritingCompanyDto);
+		}
+		
+		
+		return underwritingCompanyDtos;
 	}
 
 }

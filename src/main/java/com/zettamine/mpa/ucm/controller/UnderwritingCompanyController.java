@@ -1,7 +1,10 @@
 package com.zettamine.mpa.ucm.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,7 +28,7 @@ public class UnderwritingCompanyController {
 	private IUnderwritingCompanyService underwritingCompanyService;
 
 	@PostMapping("/create")
-	public ResponseEntity<?> saveCompanyDetails(@Valid @RequestBody UnderwritingCompanyDto underwritingCompanyDto) throws IllegalArgumentException, IllegalAccessException
+	public ResponseEntity<ResponseDto> saveCompanyDetails(@Valid @RequestBody UnderwritingCompanyDto underwritingCompanyDto) throws IllegalArgumentException, IllegalAccessException
 	{
 		
 		underwritingCompanyService.save(underwritingCompanyDto);
@@ -37,7 +40,7 @@ public class UnderwritingCompanyController {
 	}
 	
 	@PutMapping("/update/{uwcoId}")
-	public ResponseEntity<?> updateCompanyDetails(@Valid @RequestBody UnderwritingCompanyDto underwritingCompanyDto, @PathVariable Long uwcoId) throws IllegalArgumentException, IllegalAccessException
+	public ResponseEntity<ResponseDto> updateCompanyDetails(@Valid @RequestBody UnderwritingCompanyDto underwritingCompanyDto, @PathVariable Long uwcoId) throws IllegalArgumentException, IllegalAccessException
 	{
 		
 		underwritingCompanyService.update(uwcoId,underwritingCompanyDto);
@@ -47,4 +50,20 @@ public class UnderwritingCompanyController {
 				.body(new ResponseDto(AppConstants.STATUS_200, AppConstants.MESSAGE_200));
 	
 	}
+	
+	@GetMapping("/fetch/{uwcoId}")
+	public ResponseEntity<UnderwritingCompanyDto> getCompanyDetails(@PathVariable Long uwcoId)
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(underwritingCompanyService.get(uwcoId));
+		
+	}
+	
+	@GetMapping("/fetchAll")
+	public ResponseEntity<List<UnderwritingCompanyDto>> getAllCompanyDetails()
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(underwritingCompanyService.getAll());
+		
+	}
+	
+	
 }
