@@ -1,15 +1,15 @@
 package com.zettamine.mpa.ucm.service;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.zettamine.mpa.ucm.dto.UnderwritingCompanyDto;
 import com.zettamine.mpa.ucm.dto.UnderwritingHistoryDto;
 import com.zettamine.mpa.ucm.entities.UnderwritingCompany;
 import com.zettamine.mpa.ucm.entities.UnderwritingHistory;
-import com.zettamine.mpa.ucm.exception.CompanyAlreadyExists;
 import com.zettamine.mpa.ucm.exception.DuplicationException;
 import com.zettamine.mpa.ucm.exception.ResourceNotFoundException;
 import com.zettamine.mpa.ucm.mapper.UnderwritingHistoryMapper;
@@ -78,10 +78,74 @@ public class UnderwritingHistoryServiceImpl implements IUnderwritingHistoryServi
 	}
 
 	@Override
-	public void update(Long historyId, UnderwritingHistoryDto underwritingHistoryDto) {
+	public void update(Long historyId, UnderwritingHistoryDto underwritingHistoryDto)
+			throws IllegalArgumentException, IllegalAccessException {
 
-		underwritingHistoryRepository.findById(historyId)
+		UnderwritingHistory history = underwritingHistoryRepository.findById(historyId)
 				.orElseThrow(() -> new ResourceNotFoundException("History not found with Id : " + historyId));
+
+		toUpper(underwritingHistoryDto);
+
+		UnderwritingHistory underwritingHistory = UnderwritingHistoryMapper.toEntity(underwritingHistoryDto,
+				new UnderwritingHistory());
+
+		underwritingHistory.setHistoryId(historyId);
+		underwritingHistory.setUnderwritingCompany(history.getUnderwritingCompany());
+		underwritingHistoryRepository.save(underwritingHistory);
+
+	}
+
+	@Override
+	public List<UnderwritingHistoryDto> getByUwcId(Long uwcId) {
+
+		UnderwritingCompany underwritingCompany = underwritingCompanyRepository.findById(uwcId)
+				.orElseThrow(() -> new ResourceNotFoundException("Comapny not found with Id : " + uwcId));
+
+		List<UnderwritingHistory> underwritingHistories = underwritingCompany.getUnderwritingHistories();
+
+		List<UnderwritingHistoryDto> underwritingHistoryDto = new ArrayList<>();
+
+		for (UnderwritingHistory history : underwritingHistories) {
+			UnderwritingHistoryDto dto = UnderwritingHistoryMapper.toDto(history, new UnderwritingHistoryDto());
+			dto.setUnderwritingCompanyName(history.getUnderwritingCompany().getName());
+
+			underwritingHistoryDto.add(dto);
+		}
+
+		return underwritingHistoryDto;
+
+	}
+
+	@Override
+	public UnderwritingHistoryDto getByLoanId(Integer loanId) {
+
+		UnderwritingHistory underwritingHistory = underwritingHistoryRepository.findByLoanId(loanId)
+				.orElseThrow(() -> new ResourceNotFoundException("History not found for loanId : " + loanId));
+				
+
+		UnderwritingHistoryDto underwritingHistoryDto = UnderwritingHistoryMapper.toDto(underwritingHistory, new UnderwritingHistoryDto());
+		
+		underwritingHistoryDto.setUnderwritingCompanyName(underwritingHistory.getUnderwritingCompany().getName());
+		
+		return underwritingHistoryDto;
+
+	}
+
+	@Override
+	public List<UnderwritingHistoryDto> getAll() {
+		
+		List<UnderwritingHistory> underwritingHistories = underwritingHistoryRepository.findAll();
+		
+		List<UnderwritingHistoryDto> underwritingHistoryDto = new ArrayList<>();
+
+		for (UnderwritingHistory history : underwritingHistories) {
+			UnderwritingHistoryDto dto = UnderwritingHistoryMapper.toDto(history, new UnderwritingHistoryDto());
+			dto.setUnderwritingCompanyName(history.getUnderwritingCompany().getName());
+
+			underwritingHistoryDto.add(dto);
+		}
+		
+		return underwritingHistoryDto;
 
 	}
 

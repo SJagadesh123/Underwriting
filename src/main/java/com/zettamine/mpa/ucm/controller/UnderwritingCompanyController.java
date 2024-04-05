@@ -24,46 +24,43 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1/underwriting/company")
 @AllArgsConstructor
 public class UnderwritingCompanyController {
-	
+
 	private IUnderwritingCompanyService underwritingCompanyService;
 
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDto> saveCompanyDetails(@Valid @RequestBody UnderwritingCompanyDto underwritingCompanyDto) throws IllegalArgumentException, IllegalAccessException
-	{
-		
+	public ResponseEntity<ResponseDto> saveCompanyDetails(
+			@Valid @RequestBody UnderwritingCompanyDto underwritingCompanyDto)
+			throws IllegalArgumentException, IllegalAccessException {
+
 		underwritingCompanyService.save(underwritingCompanyDto);
-		
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new ResponseDto(AppConstants.STATUS_201, AppConstants.MESSAGE_201));
-	
+
 	}
-	
+
 	@PutMapping("/update/{uwcoId}")
-	public ResponseEntity<ResponseDto> updateCompanyDetails(@Valid @RequestBody UnderwritingCompanyDto underwritingCompanyDto, @PathVariable Long uwcoId) throws IllegalArgumentException, IllegalAccessException
-	{
-		
-		underwritingCompanyService.update(uwcoId,underwritingCompanyDto);
-		
-		
+	public ResponseEntity<ResponseDto> updateCompanyDetails(
+			@Valid @RequestBody UnderwritingCompanyDto underwritingCompanyDto, @PathVariable Long uwcoId)
+			throws IllegalArgumentException, IllegalAccessException {
+
+		underwritingCompanyService.update(uwcoId, underwritingCompanyDto);
+
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new ResponseDto(AppConstants.STATUS_200, AppConstants.MESSAGE_200));
-	
+
 	}
-	
+
 	@GetMapping("/fetch/{uwcoId}")
-	public ResponseEntity<UnderwritingCompanyDto> getCompanyDetails(@PathVariable Long uwcoId)
-	{
+	public ResponseEntity<UnderwritingCompanyDto> getCompanyDetails(@PathVariable Long uwcoId) {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCompanyService.get(uwcoId));
-		
+
 	}
-	
+
 	@GetMapping("/fetchAll")
-	public ResponseEntity<List<UnderwritingCompanyDto>> getAllCompanyDetails()
-	{
+	public ResponseEntity<List<UnderwritingCompanyDto>> getAllCompanyDetails() {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCompanyService.getAll());
-		
+
 	}
-	
-	
+
 }
