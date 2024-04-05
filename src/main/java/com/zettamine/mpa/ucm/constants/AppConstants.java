@@ -26,5 +26,6 @@ public interface AppConstants {
 	String VALID_ZIPCODE = "Provide valid zipcode";
 	String VALID_PHONE = "Provide valid phone number";
 	String VALID_EMAIL = "Provide valid email";
+	String NOT_NULL = "Should not be null";
 	
 }
