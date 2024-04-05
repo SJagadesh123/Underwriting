@@ -31,7 +31,6 @@ public class UnderwritingHistory extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "uwco_id")
-	@Column(updatable = false)
 	private UnderwritingCompany underwritingCompany;
 
 	@Column(name = "loan_id")
