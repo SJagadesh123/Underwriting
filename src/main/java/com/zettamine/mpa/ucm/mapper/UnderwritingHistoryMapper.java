@@ -1,8 +1,6 @@
 package com.zettamine.mpa.ucm.mapper;
 
-import com.zettamine.mpa.ucm.dto.UnderwritingCompanyDto;
 import com.zettamine.mpa.ucm.dto.UnderwritingHistoryDto;
-import com.zettamine.mpa.ucm.entities.UnderwritingCompany;
 import com.zettamine.mpa.ucm.entities.UnderwritingHistory;
 
 public class UnderwritingHistoryMapper {
