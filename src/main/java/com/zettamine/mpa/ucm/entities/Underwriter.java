@@ -35,8 +35,6 @@ public class Underwriter {
 	@Column(name = "last_name", nullable = false, length = 50)
 	private String lastName;
 
-	@Column(name = "license_number", length = 50)
-	private String licenseNumber;
 
 	@Column(name = "email", unique = true, length = 100)
 	private String email;
