@@ -23,7 +23,6 @@ public class UnderwriterMapper {
 
 	public static Underwriter toEntity(UnderwriterDto dto, Underwriter entity) {
 
-		entity.setUnderwriterId(dto.getUnderwriterId());
 		entity.setAppraiserLicenceId(dto.getAppraiserLicenceId());
 		entity.setFirstName(dto.getFirstName());
 		entity.setLastName(dto.getLastName());
