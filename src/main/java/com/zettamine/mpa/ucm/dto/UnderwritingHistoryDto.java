@@ -6,6 +6,7 @@ import com.zettamine.mpa.ucm.constants.AppConstants;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class UnderwritingHistoryDto {
 	@NotBlank(message = AppConstants.PROVIDE_VALUE)
     private String decision;
 	@NotNull(message = AppConstants.NOT_NULL)
+	@PastOrPresent
     private LocalDate decisionDate;
 	@NotBlank(message = AppConstants.PROVIDE_VALUE)
     private String notes;
