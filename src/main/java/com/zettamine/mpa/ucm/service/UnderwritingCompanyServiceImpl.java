@@ -16,7 +16,6 @@ import com.zettamine.mpa.ucm.mapper.UnderwritingCompanyMapper;
 import com.zettamine.mpa.ucm.repository.UnderwritingCompanyRepository;
 import com.zettamine.mpa.ucm.utility.StringUtils;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -58,10 +57,18 @@ public class UnderwritingCompanyServiceImpl implements IUnderwritingCompanyServi
 
 		UnderwritingCompany uwc = underwritingCompanyRepository.findById(uwcoId)
 				.orElseThrow(() -> new ResourceNotFoundException("Company Details not found with Id : " + uwcoId));
+		String name = StringUtils.trimSpacesBetween(underwritingCompanyDto.getName());
+		Optional<UnderwritingCompany> optUwc = underwritingCompanyRepository.findByName(name.toUpperCase());
+
+		if(optUwc.isPresent() && optUwc.get().getUwcoId()!=uwcoId)
+		{
+			throw new DuplicationException("A company already present with name : " + name);
+		}
 
 		toUpper(underwritingCompanyDto);
 
 		UnderwritingCompany underwritingCompany = UnderwritingCompanyMapper.toEntity(underwritingCompanyDto, uwc);
+		underwritingCompany.setUwcoId(uwcoId);
 		underwritingCompanyRepository.save(underwritingCompany);
 	}
 
