@@ -17,9 +17,10 @@ public interface AppConstants {
 
 	String ZIPCODE_REGEX = "^([0-9]{5})?$";
 	String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-	String COMPANY_NAME_REGEX = "^[A-Za-z\\s&.,'-]+$";
-	String PHONE_REGEX = "^\\d{3}-\\d{3}-\\d{4}$";
+	String COMPANY_NAME_REGEX = "^(?=.*[A-Za-z])[A-Za-z\\s&.,'-]+$", PHONE_REGEX = "^\\d{3}-\\d{3}-\\d{4}$";
 	String PLACE_REGEX = "^[A-Za-z\\s.-]+$";
+	String NAME_REGEX = "^[A-Za-z]+(?:[\\s-][A-Za-z]+)*$";
+	String LICENCE_ID_REGEX = "^[A-Za-z0-9]{10}$";
 
 	String PROVIDE_VALUE = "Provide value";
 	String VALID_NAME = "Provide valid name";

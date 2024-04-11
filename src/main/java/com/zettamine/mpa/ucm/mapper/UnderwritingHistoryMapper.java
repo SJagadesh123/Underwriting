@@ -18,7 +18,7 @@ public class UnderwritingHistoryMapper {
 
 	public static UnderwritingHistory toEntity(UnderwritingHistoryDto dto, UnderwritingHistory entity) {
 
-		entity.setHistoryId(dto.getHistoryId());
+		
 		entity.setLoanId(dto.getLoanId());
 		entity.setDecision(dto.getDecision());
 		entity.setDecisionDate(dto.getDecisionDate());
