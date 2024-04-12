@@ -1,3 +1,4 @@
+
 package com.zettamine.mpa.ucm.service;
 
 import java.lang.reflect.Field;
@@ -6,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
 
 import com.zettamine.mpa.ucm.dto.UnderwritingCriteriaDto;
 import com.zettamine.mpa.ucm.entities.UnderwritingCriteria;
@@ -33,6 +35,7 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 		if (criteria.isPresent()) {
 			throw new DuplicationException("Criteria exist with name " + name);
 		}
+		toUpper(underwritingCriteriaDto);
 
 		toUpper(underwritingCriteriaDto);
 		UnderwritingCriteria underwritingCriteria = UnderwritingCriteriaMapper.toEntity(underwritingCriteriaDto,
@@ -41,7 +44,8 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 		underwritingCriteriaRepository.save(underwritingCriteria);
 	}
 
-	@Override
+	
+
 	public void update(Long id, UnderwritingCriteriaDto underwritingCriteriaDto) throws IllegalArgumentException, IllegalAccessException {
 
 		UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findById(id)
@@ -59,6 +63,8 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 
 	@Override
 	public UnderwritingCriteriaDto get(Long id) {
+
+		
 		
 		UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Criteria not found with Id : " + id));
@@ -70,6 +76,7 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 
 	@Override
 	public List<UnderwritingCriteriaDto> getAll() {
+
 		
 		List<UnderwritingCriteria> underwritingCriteriaList = underwritingCriteriaRepository.findAll();
 		
@@ -82,6 +89,7 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 		}
 		
 		return underwritingCriteriaDtos;
+
 	}
 
 	private static void toUpper(UnderwritingCriteriaDto underwritingCriteriaDto)

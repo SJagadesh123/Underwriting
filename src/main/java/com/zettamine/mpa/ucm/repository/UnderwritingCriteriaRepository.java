@@ -9,6 +9,7 @@ import com.zettamine.mpa.ucm.entities.UnderwritingCriteria;
 
 public interface UnderwritingCriteriaRepository extends JpaRepository<UnderwritingCriteria, Serializable> {
 
-	Optional<UnderwritingCriteria> findByCriteriaName(String upperCase);
+	Optional<UnderwritingCriteria> findByCriteriaName(String criteriaName);
+
 
 }
