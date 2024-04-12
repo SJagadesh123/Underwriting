@@ -29,7 +29,7 @@ public class UnderwritingCompany extends BaseEntity {
 	@Column(name = "uwco_id")
 	private Long uwcoId;
 
-	@Column(name = "name", nullable = false, length = 100)
+	@Column(name = "name", nullable = false, length = 100, unique = true)
 	private String name;
 
 	@Column(name = "address", length = 255)
