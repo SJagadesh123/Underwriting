@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.zettamine.mpa.ucm.dto.UnderwritingCriteriaDto;
 import com.zettamine.mpa.ucm.entities.UnderwritingCriteria;
 import com.zettamine.mpa.ucm.exception.DuplicationException;
@@ -13,6 +15,10 @@ import com.zettamine.mpa.ucm.mapper.UnderwritingCriteriaMapper;
 import com.zettamine.mpa.ucm.repository.UnderwritingCriteriaRepository;
 import com.zettamine.mpa.ucm.utility.StringUtils;
 
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
 public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaService {
 
 	private UnderwritingCriteriaRepository underwritingCriteriaRepository;
@@ -22,7 +28,7 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 			throws IllegalArgumentException, IllegalAccessException {
 
 		String name = StringUtils.trimSpacesBetween(underwritingCriteriaDto.getCriteriaName());
-		Optional<UnderwritingCriteria> criteria = underwritingCriteriaRepository.findByName(name.toUpperCase());
+		Optional<UnderwritingCriteria> criteria = underwritingCriteriaRepository.findByCriteriaName(name.toUpperCase());
 
 		if (criteria.isPresent()) {
 			throw new DuplicationException("Criteria exist with name " + name);
