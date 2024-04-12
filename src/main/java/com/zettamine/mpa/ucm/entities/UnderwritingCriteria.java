@@ -21,9 +21,9 @@ public class UnderwritingCriteria extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long criteria_id;
+	private Long criteriaId;
 
-	private String criteria_name;
+	private String criteriaName;
 	private String notes;
 
 }
