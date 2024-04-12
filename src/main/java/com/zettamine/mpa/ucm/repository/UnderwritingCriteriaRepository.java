@@ -11,4 +11,5 @@ public interface UnderwritingCriteriaRepository extends JpaRepository<Underwriti
 
 	Optional<UnderwritingCriteria> findByCriteriaName(String criteriaName);
 
+
 }
