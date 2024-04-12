@@ -33,7 +33,7 @@ public class UnderwritingHistory extends BaseEntity {
 	@JoinColumn(name = "uwco_id")
 	private UnderwritingCompany underwritingCompany;
 
-	@Column(name = "loan_id")
+	@Column(name = "loan_id", unique = true)
 	private Integer loanId;
 
 	@Column(name = "decision", length = 50)

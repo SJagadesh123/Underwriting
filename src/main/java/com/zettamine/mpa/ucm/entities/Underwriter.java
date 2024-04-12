@@ -26,7 +26,7 @@ public class Underwriter {
 	@Column(name = "underwriter_id")
 	private Long underwriterId;
 
-	@Column(name = "appraiser_licence_id", nullable = false, length = 10)
+	@Column(name = "appraiser_licence_id", nullable = false, length = 10, unique = true)
 	private String appraiserLicenceId;
 
 	@Column(name = "first_name", nullable = false, length = 50)
@@ -39,7 +39,7 @@ public class Underwriter {
 	@Column(name = "email", unique = true, length = 100)
 	private String email;
 
-	@Column(name = "phone", length = 20)
+	@Column(name = "phone", length = 20, unique = true)
 	private String phone;
 
 	@ManyToOne
