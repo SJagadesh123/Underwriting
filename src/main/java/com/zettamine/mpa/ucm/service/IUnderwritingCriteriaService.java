@@ -6,7 +6,7 @@ import com.zettamine.mpa.ucm.dto.UnderwritingCriteriaDto;
 
 public interface IUnderwritingCriteriaService {
 
-	void save(UnderwritingCriteriaDto underwritingCriteriaDto);
+	void save(UnderwritingCriteriaDto underwritingCriteriaDto) throws IllegalArgumentException, IllegalAccessException;
 	
 	void update(Long id, UnderwritingCriteriaDto underwritingCriteriaDto);
 	
