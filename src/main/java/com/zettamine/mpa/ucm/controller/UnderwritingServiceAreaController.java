@@ -40,7 +40,7 @@ public class UnderwritingServiceAreaController {
 				.body(new ResponseDto(AppConstants.STATUS_201, AppConstants.MESSAGE_201));
 
 	}
-	
+
 	@PutMapping("/update/{id}")
 	public ResponseEntity<ResponseDto> updateUnderwriter(@Valid @RequestBody ServiceAreaDto serviceAreaDto,
 			@PathVariable Long id) throws IllegalArgumentException, IllegalAccessException {
@@ -51,25 +51,19 @@ public class UnderwritingServiceAreaController {
 				.body(new ResponseDto(AppConstants.STATUS_200, AppConstants.MESSAGE_200));
 
 	}
-	
+
 	@GetMapping("/fetch-by-uwcId/{uwcId}")
-	public ResponseEntity<UnderwritingServiceAreaDto> fetchByUwcId(@PathVariable Long uwcId)
-	{
-		return ResponseEntity.status(HttpStatus.OK)
-		.body(serviceAreaService.getByUwcId(uwcId));
+	public ResponseEntity<UnderwritingServiceAreaDto> fetchByUwcId(@PathVariable Long uwcId) {
+		return ResponseEntity.status(HttpStatus.OK).body(serviceAreaService.getByUwcId(uwcId));
 	}
-	
+
 	@GetMapping("/fetch/{id}")
-	public ResponseEntity<UnderwritingServiceAreaDto> fetch(@PathVariable Long id)
-	{
-		return ResponseEntity.status(HttpStatus.OK)
-		.body(serviceAreaService.get(id));
+	public ResponseEntity<UnderwritingServiceAreaDto> fetch(@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.OK).body(serviceAreaService.get(id));
 	}
-	
+
 	@GetMapping("/fetchAll")
-	public ResponseEntity<List<UnderwritingServiceAreaDto>> fetchAll()
-	{
-		return ResponseEntity.status(HttpStatus.OK)
-		.body(serviceAreaService.getAll());
+	public ResponseEntity<List<UnderwritingServiceAreaDto>> fetchAll() {
+		return ResponseEntity.status(HttpStatus.OK).body(serviceAreaService.getAll());
 	}
 }

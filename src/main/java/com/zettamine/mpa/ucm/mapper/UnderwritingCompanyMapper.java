@@ -1,6 +1,5 @@
 package com.zettamine.mpa.ucm.mapper;
 
-
 import com.zettamine.mpa.ucm.dto.UnderwritingCompanyDto;
 import com.zettamine.mpa.ucm.entities.UnderwritingCompany;
 
@@ -35,7 +34,7 @@ public class UnderwritingCompanyMapper {
 		entity.setWebsite(dto.getWebsite());
 		entity.setNotes(dto.getNotes());
 		entity.setUwClaimProcess(dto.getUwClaimProcess());
-		
+
 		return entity;
 	}
 }

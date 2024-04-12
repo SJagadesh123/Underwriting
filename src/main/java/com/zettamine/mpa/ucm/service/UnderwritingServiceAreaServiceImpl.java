@@ -50,7 +50,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 			UnderwritingServiceArea entity = UnderwritingServiceAreaMapper.toEntity(serviceArea,
 					new UnderwritingServiceArea());
 			
-			List<UnderwritingServiceArea> list = underwritingServiceAreaRepository.findAll(Example.of(null));
+			List<UnderwritingServiceArea> list = underwritingServiceAreaRepository.findAll(Example.of(entity));
 
 			if(list.size()>0)
 			{
