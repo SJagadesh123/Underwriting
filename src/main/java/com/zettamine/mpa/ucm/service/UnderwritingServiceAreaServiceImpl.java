@@ -46,17 +46,16 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 		for (ServiceAreaDto serviceArea : serviceAreas) {
 			toUpper(serviceArea);
 
-			
 			UnderwritingServiceArea entity = UnderwritingServiceAreaMapper.toEntity(serviceArea,
 					new UnderwritingServiceArea());
-			
-			List<UnderwritingServiceArea> list = underwritingServiceAreaRepository.findAll(Example.of(null));
+			entity.setUnderwritingCompany(underwritingCompany);
 
-			if(list.size()>0)
-			{
+			List<UnderwritingServiceArea> list = underwritingServiceAreaRepository.findAll(Example.of(entity));
+
+			if (list.size() > 0) {
 				throw new DuplicationException("Duplicate Service areas are present, please check and re enter");
 			}
-			
+
 			underwritingServiceAreas.add(entity);
 		}
 
@@ -95,13 +94,25 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 		UnderwritingServiceArea serviceArea = underwritingServiceAreaRepository.findById(serviceAreaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Service Area not found with Id : " + serviceAreaId));
 
+		UnderwritingCompany underwritingCompany = serviceArea.getUnderwritingCompany();
+
 		toUpper(serviceAreaDto);
 
+		
 		UnderwritingServiceArea underwritingServiceArea = UnderwritingServiceAreaMapper.toEntity(serviceAreaDto,
 				serviceArea);
+		
+		
+		underwritingServiceArea.setUnderwritingCompany(underwritingCompany);
+
+		List<UnderwritingServiceArea> list = underwritingServiceAreaRepository.findAll(Example.of(underwritingServiceArea));
+
+		if (list.size() > 0) {
+			throw new DuplicationException("Duplicate Service areas are present, please check and re enter");
+		}
 
 		underwritingServiceArea.setServiceAreaId(serviceArea.getServiceAreaId());
-		
+
 		underwritingServiceAreaRepository.save(underwritingServiceArea);
 	}
 

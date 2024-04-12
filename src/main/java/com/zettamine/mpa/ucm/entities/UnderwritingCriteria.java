@@ -1,5 +1,6 @@
 package com.zettamine.mpa.ucm.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,9 +22,11 @@ public class UnderwritingCriteria extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long criteria_id;
+	private Long criteriaId;
 
-	private String criteria_name;
+	@Column(unique = true)
+	private String criteriaName;
+	
 	private String notes;
 
 }

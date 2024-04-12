@@ -14,56 +14,48 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zettamine.mpa.ucm.constants.AppConstants;
 import com.zettamine.mpa.ucm.dto.ResponseDto;
-import com.zettamine.mpa.ucm.dto.ServiceAreaDto;
-import com.zettamine.mpa.ucm.dto.UnderwriterDto;
-import com.zettamine.mpa.ucm.dto.UnderwritingServiceAreaDto;
-import com.zettamine.mpa.ucm.service.IUnderwritingServiceAreaService;
+import com.zettamine.mpa.ucm.dto.UnderwritingCriteriaDto;
+import com.zettamine.mpa.ucm.service.IUnderwritingCriteriaService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/underwriting/service-area")
+@RequestMapping("/api/v1/underwriting/criteria")
 @AllArgsConstructor
-public class UnderwritingServiceAreaController {
-
-	private IUnderwritingServiceAreaService serviceAreaService;
+public class UnderwritingCriteriaController {
+	
+	private IUnderwritingCriteriaService underwritingCriteriaService;
 
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDto> saveUnderwriter(
-			@Valid @RequestBody UnderwritingServiceAreaDto underwritingServiceAreaDto)
+	public ResponseEntity<ResponseDto> saveCriteria(@Valid @RequestBody UnderwritingCriteriaDto underwritingCriteriaDto)
 			throws IllegalArgumentException, IllegalAccessException {
 
-		serviceAreaService.save(underwritingServiceAreaDto);
+		underwritingCriteriaService.save(underwritingCriteriaDto);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new ResponseDto(AppConstants.STATUS_201, AppConstants.MESSAGE_201));
 
 	}
-
+	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto> updateUnderwriter(@Valid @RequestBody ServiceAreaDto serviceAreaDto,
+	public ResponseEntity<ResponseDto> updateCriteria(@Valid @RequestBody UnderwritingCriteriaDto underwritingCriteriaDto,
 			@PathVariable Long id) throws IllegalArgumentException, IllegalAccessException {
 
-		serviceAreaService.update(id, serviceAreaDto);
+		underwritingCriteriaService.update(id, underwritingCriteriaDto);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new ResponseDto(AppConstants.STATUS_200, AppConstants.MESSAGE_200));
 
 	}
-
-	@GetMapping("/fetch-by-uwcId/{uwcId}")
-	public ResponseEntity<UnderwritingServiceAreaDto> fetchByUwcId(@PathVariable Long uwcId) {
-		return ResponseEntity.status(HttpStatus.OK).body(serviceAreaService.getByUwcId(uwcId));
-	}
-
+	
 	@GetMapping("/fetch/{id}")
-	public ResponseEntity<UnderwritingServiceAreaDto> fetch(@PathVariable Long id) {
-		return ResponseEntity.status(HttpStatus.OK).body(serviceAreaService.get(id));
+	public ResponseEntity<UnderwritingCriteriaDto> fetch(@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.get(id));
 	}
-
+	
 	@GetMapping("/fetchAll")
-	public ResponseEntity<List<UnderwritingServiceAreaDto>> fetchAll() {
-		return ResponseEntity.status(HttpStatus.OK).body(serviceAreaService.getAll());
+	public ResponseEntity<List<UnderwritingCriteriaDto>> fetchAll() {
+		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getAll());
 	}
 }
