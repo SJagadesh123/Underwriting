@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-
 import com.zettamine.mpa.ucm.dto.UnderwritingCriteriaDto;
 import com.zettamine.mpa.ucm.entities.UnderwritingCriteria;
 import com.zettamine.mpa.ucm.exception.DuplicationException;
@@ -44,15 +43,14 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 		underwritingCriteriaRepository.save(underwritingCriteria);
 	}
 
-	
-
-	public void update(Long id, UnderwritingCriteriaDto underwritingCriteriaDto) throws IllegalArgumentException, IllegalAccessException {
+	public void update(Long id, UnderwritingCriteriaDto underwritingCriteriaDto)
+			throws IllegalArgumentException, IllegalAccessException {
 
 		UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Criteria not found with Id : " + id));
 
 		toUpper(underwritingCriteriaDto);
-		
+
 		UnderwritingCriteria entity = UnderwritingCriteriaMapper.toEntity(underwritingCriteriaDto,
 				underwritingCriteria);
 
@@ -64,30 +62,28 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 	@Override
 	public UnderwritingCriteriaDto get(Long id) {
 
-		
-		
 		UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Criteria not found with Id : " + id));
 
-		UnderwritingCriteriaDto underwritingCriteriaDto = UnderwritingCriteriaMapper.toDto(underwritingCriteria, new UnderwritingCriteriaDto());
-		
+		UnderwritingCriteriaDto underwritingCriteriaDto = UnderwritingCriteriaMapper.toDto(underwritingCriteria,
+				new UnderwritingCriteriaDto());
+
 		return underwritingCriteriaDto;
 	}
 
 	@Override
 	public List<UnderwritingCriteriaDto> getAll() {
 
-		
 		List<UnderwritingCriteria> underwritingCriteriaList = underwritingCriteriaRepository.findAll();
-		
+
 		List<UnderwritingCriteriaDto> underwritingCriteriaDtos = new ArrayList<>();
-		
-		for(UnderwritingCriteria underwritingCriteria : underwritingCriteriaList)
-		{
-			UnderwritingCriteriaDto dto = UnderwritingCriteriaMapper.toDto(underwritingCriteria, new UnderwritingCriteriaDto());
+
+		for (UnderwritingCriteria underwritingCriteria : underwritingCriteriaList) {
+			UnderwritingCriteriaDto dto = UnderwritingCriteriaMapper.toDto(underwritingCriteria,
+					new UnderwritingCriteriaDto());
 			underwritingCriteriaDtos.add(dto);
 		}
-		
+
 		return underwritingCriteriaDtos;
 
 	}
