@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.zettamine.mpa.ucm.dto.UnderwritingCriteriaDto;
 import com.zettamine.mpa.ucm.entities.UnderwritingCriteria;
+import com.zettamine.mpa.ucm.entities.UnderwritingCriteriaLoanProduct;
 import com.zettamine.mpa.ucm.exception.DuplicationException;
 import com.zettamine.mpa.ucm.exception.ResourceNotFoundException;
 import com.zettamine.mpa.ucm.mapper.UnderwritingCriteriaMapper;
+import com.zettamine.mpa.ucm.repository.UnderwritingCriteriaLoanProductRepository;
 import com.zettamine.mpa.ucm.repository.UnderwritingCriteriaRepository;
+import com.zettamine.mpa.ucm.service.clients.LoanProductFeignClient;
 import com.zettamine.mpa.ucm.utility.StringUtils;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +27,8 @@ import lombok.AllArgsConstructor;
 public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaService {
 
 	private UnderwritingCriteriaRepository underwritingCriteriaRepository;
+	private UnderwritingCriteriaLoanProductRepository criteriaLoanProductRepository;
+	private LoanProductFeignClient loanProductFeignClient;
 
 	@Override
 	public void save(UnderwritingCriteriaDto underwritingCriteriaDto)
@@ -107,5 +113,44 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 			}
 
 		}
+	}
+
+	@Override
+	public void addCriteriaToLoanProd(List<String> criteriaNames, String loanProductName) {
+
+		String loanProdName = StringUtils.trimSpacesBetween(loanProductName.toUpperCase());
+
+		ResponseEntity<Integer> loanProductResponse = (ResponseEntity<Integer>) loanProductFeignClient
+				.getLoanProductIdByName(loanProductName);
+
+		Integer loanProdId = loanProductResponse.getBody();
+
+		if (loanProdId == null) {
+			throw new ResourceNotFoundException("Loan Product not fount with name : " + loanProdName);
+		}
+
+		List<UnderwritingCriteria> underwritingCriterias = new ArrayList<>();
+
+		for (String criteriaName : criteriaNames) {
+			String name = StringUtils.trimSpacesBetween(criteriaName.toUpperCase());
+
+			UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findByCriteriaName(name)
+					.orElseThrow(() -> new ResourceNotFoundException("Criteria not found with name : " + name));
+
+			underwritingCriterias.add(underwritingCriteria);
+		}
+		
+		for(UnderwritingCriteria criteria : underwritingCriterias)
+		{
+			UnderwritingCriteriaLoanProduct criteriaLoanProduct = new UnderwritingCriteriaLoanProduct();
+			
+			criteriaLoanProduct.setProdId(loanProdId);
+			criteriaLoanProduct.setUnderwritingCriteria(criteria);
+			
+			criteriaLoanProductRepository.save(criteriaLoanProduct);
+		}
+		
+	//	loanProductFeignClient.updateLoanProductStatus(loanProdId);
+
 	}
 }
