@@ -13,4 +13,6 @@ public interface IUnderwritingCriteriaService {
 	UnderwritingCriteriaDto get(Long id);
 	
 	List<UnderwritingCriteriaDto> getAll();
+	
+	void addCriteriaToLoanProd(List<String> criteriaNames, String loanProductName);
 }
