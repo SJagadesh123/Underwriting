@@ -1,6 +1,7 @@
 package com.zettamine.mpa.ucm.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zettamine.mpa.ucm.constants.AppConstants;
 import com.zettamine.mpa.ucm.dto.ResponseDto;
+import com.zettamine.mpa.ucm.dto.SearchCriteriaDto;
+import com.zettamine.mpa.ucm.dto.SearchResultDto;
 import com.zettamine.mpa.ucm.dto.UnderwritingCompanyDto;
 import com.zettamine.mpa.ucm.service.IUnderwritingCompanyService;
 
@@ -62,5 +65,14 @@ public class UnderwritingCompanyController {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCompanyService.getAll());
 
 	}
+	
+	@GetMapping("/fetch-by-criteria")
+	public ResponseEntity<Set<SearchResultDto>> getBySearchCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
+		
+		return ResponseEntity.status(HttpStatus.OK).body(underwritingCompanyService.getByCriteria(searchCriteriaDto));
+		
+	}
+	
+	
 
 }
