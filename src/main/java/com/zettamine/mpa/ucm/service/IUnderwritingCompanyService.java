@@ -1,7 +1,10 @@
 package com.zettamine.mpa.ucm.service;
 
 import java.util.List;
+import java.util.Set;
 
+import com.zettamine.mpa.ucm.dto.SearchCriteriaDto;
+import com.zettamine.mpa.ucm.dto.SearchResultDto;
 import com.zettamine.mpa.ucm.dto.UnderwritingCompanyDto;
 
 
@@ -14,4 +17,6 @@ public interface IUnderwritingCompanyService {
 	UnderwritingCompanyDto get(Long uwcoId);
 	
 	List<UnderwritingCompanyDto> getAll();
+	
+	Set<SearchResultDto> getByCriteria(SearchCriteriaDto searchCriteriaDto);
 }

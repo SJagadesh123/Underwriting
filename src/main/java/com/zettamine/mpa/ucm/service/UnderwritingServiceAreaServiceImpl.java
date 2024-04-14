@@ -102,7 +102,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 		UnderwritingServiceArea underwritingServiceArea = UnderwritingServiceAreaMapper.toEntity(serviceAreaDto,
 				serviceArea);
 		
-		
+		underwritingServiceArea.setServiceAreaId(null);
 		underwritingServiceArea.setUnderwritingCompany(underwritingCompany);
 
 		List<UnderwritingServiceArea> list = underwritingServiceAreaRepository.findAll(Example.of(underwritingServiceArea));
@@ -111,7 +111,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 			throw new DuplicationException("Duplicate Service areas are present, please check and re enter");
 		}
 
-		underwritingServiceArea.setServiceAreaId(serviceArea.getServiceAreaId());
+		underwritingServiceArea.setServiceAreaId(serviceAreaId);
 
 		underwritingServiceAreaRepository.save(underwritingServiceArea);
 	}
