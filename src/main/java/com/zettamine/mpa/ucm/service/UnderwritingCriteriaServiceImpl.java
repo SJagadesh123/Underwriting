@@ -30,7 +30,7 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 			throws IllegalArgumentException, IllegalAccessException {
 
 		String name = StringUtils.trimSpacesBetween(underwritingCriteriaDto.getCriteriaName());
-		Optional<UnderwritingCriteria> criteria = underwritingCriteriaRepository.findByName(name.toUpperCase());
+		Optional<UnderwritingCriteria> criteria = underwritingCriteriaRepository.findByCriteriaName(name.toUpperCase());
 
 		if (criteria.isPresent()) {
 			throw new DuplicationException("Criteria exist with name " + name);
