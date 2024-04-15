@@ -9,5 +9,7 @@ import com.zettamine.mpa.ucm.dto.SearchResultDto;
 public interface SearchCriteriaRepository {
 
 	Set<SearchResultDto> getByCriteria(SearchCriteriaDto searchCriteria);
+	
+	Set<Integer> getLoanProductByCriteria(List<String> criteriaNames);
 
 }

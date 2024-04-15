@@ -4,10 +4,18 @@
 package com.zettamine.mpa.ucm.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.zettamine.mpa.ucm.constants.AppConstants;
 import com.zettamine.mpa.ucm.dto.LoanProductCriteriaDto;
@@ -116,5 +124,15 @@ public class UnderwritingCriteriaController {
 		return ResponseEntity.status(HttpStatus.OK) 
 				.body(new ResponseDto(AppConstants.STATUS_200, AppConstants.MESSAGE_200));
 
+	}
+	
+	@GetMapping("/get-loan-by-criteria-name")
+	public ResponseEntity<Set<Integer>> fetch(@RequestBody List<String> criteriaNames) {
+		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getByCriterias(criteriaNames));
+	}
+	
+	@GetMapping("/fetchAll-criteria-names")
+	public ResponseEntity<List<String>> fetchAllCriteriaNames() {
+		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getAllCriteriaNames());
 	}
 }
