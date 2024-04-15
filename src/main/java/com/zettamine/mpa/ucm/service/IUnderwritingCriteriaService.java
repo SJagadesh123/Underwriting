@@ -15,4 +15,6 @@ public interface IUnderwritingCriteriaService {
 	List<UnderwritingCriteriaDto> getAll();
 	
 	void addCriteriaToLoanProd(List<String> criteriaNames, String loanProductName);
+	
+	void removeCriteriaToLoanProd(List<String> criteriaNames, String loanProductName);
 }

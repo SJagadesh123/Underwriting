@@ -1,16 +1,13 @@
+/**
+ * The UnderwriterController class handles HTTP requests related to underwriters in the underwriting module.
+ */
 package com.zettamine.mpa.ucm.controller;
 
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zettamine.mpa.ucm.constants.AppConstants;
 import com.zettamine.mpa.ucm.dto.ResponseDto;
@@ -25,8 +22,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UnderwriterController {
 	
+	/**
+	 * Service interface for managing underwriters.
+	 */
 	private IUnderwriterService underwriterService;
 
+	/**
+	 * Creates a new underwriter.
+	 * 
+	 * @param underwriterDto The underwriter data to be saved.
+	 * @return ResponseEntity<ResponseDto> A response entity indicating the status of the operation.
+	 * @throws IllegalArgumentException When an invalid argument is provided.
+	 * @throws IllegalAccessException   When illegal access occurs.
+	 */
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDto> saveUnderwriter(@Valid @RequestBody UnderwriterDto underwriterDto)
 			throws IllegalArgumentException, IllegalAccessException {
@@ -38,6 +46,15 @@ public class UnderwriterController {
 
 	}
 
+	/**
+	 * Updates an existing underwriter.
+	 * 
+	 * @param underwriterDto The updated underwriter data.
+	 * @param underwriterId  The ID of the underwriter to be updated.
+	 * @return ResponseEntity<ResponseDto> A response entity indicating the status of the operation.
+	 * @throws IllegalArgumentException When an invalid argument is provided.
+	 * @throws IllegalAccessException   When illegal access occurs.
+	 */
 	@PutMapping("/update/{underwriterId}")
 	public ResponseEntity<ResponseDto> updateUnderwriter(@Valid @RequestBody UnderwriterDto underwriterDto,
 			@PathVariable Long underwriterId) throws IllegalArgumentException, IllegalAccessException {
@@ -49,6 +66,12 @@ public class UnderwriterController {
 
 	}
 	
+	/**
+	 * Fetches underwriters by UWC ID.
+	 * 
+	 * @param uwcId The UWC ID.
+	 * @return ResponseEntity<List<UnderwriterDto>> A response entity containing a list of underwriters.
+	 */
 	@GetMapping("/fetch-by-uwcId/{uwcId}")
 	public ResponseEntity<List<UnderwriterDto>> fetchByUwcId(@PathVariable Long uwcId)
 	{
@@ -56,6 +79,12 @@ public class UnderwriterController {
 		.body(underwriterService.getByUwcId(uwcId));
 	}
 	
+	/**
+	 * Fetches an underwriter by ID.
+	 * 
+	 * @param underwriterId The ID of the underwriter to fetch.
+	 * @return ResponseEntity<UnderwriterDto> A response entity containing the fetched underwriter.
+	 */
 	@GetMapping("/fetch/{underwriterId}")
 	public ResponseEntity<UnderwriterDto> fetch(@PathVariable Long underwriterId)
 	{
@@ -63,6 +92,11 @@ public class UnderwriterController {
 		.body(underwriterService.getByUnderwriterId(underwriterId));
 	}
 	
+	/**
+	 * Fetches all underwriters.
+	 * 
+	 * @return ResponseEntity<List<UnderwriterDto>> A response entity containing a list of all underwriters.
+	 */
 	@GetMapping("/fetchAll")
 	public ResponseEntity<List<UnderwriterDto>> fetchAll()
 	{

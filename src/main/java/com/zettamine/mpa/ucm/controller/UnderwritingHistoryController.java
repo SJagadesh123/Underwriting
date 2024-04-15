@@ -1,16 +1,13 @@
+/**
+ * The UnderwritingHistoryController class handles HTTP requests related to underwriting history in the underwriting module.
+ */
 package com.zettamine.mpa.ucm.controller;
 
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zettamine.mpa.ucm.constants.AppConstants;
 import com.zettamine.mpa.ucm.dto.ResponseDto;
@@ -25,8 +22,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UnderwritingHistoryController {
 
+	/**
+	 * Service interface for managing underwriting history.
+	 */
 	private IUnderwritingHistoryService underwritingHistoryService;
 
+	/**
+	 * Creates a new underwriting history.
+	 * 
+	 * @param underwritingHistoryDto The history details to be saved.
+	 * @return ResponseEntity<ResponseDto> A response entity indicating the status of the operation.
+	 * @throws IllegalArgumentException When an invalid argument is provided.
+	 * @throws IllegalAccessException   When illegal access occurs.
+	 */
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDto> saveHistory(@Valid @RequestBody UnderwritingHistoryDto underwritingHistoryDto)
 			throws IllegalArgumentException, IllegalAccessException {
@@ -38,6 +46,15 @@ public class UnderwritingHistoryController {
 
 	}
 
+	/**
+	 * Updates an existing underwriting history.
+	 * 
+	 * @param underwritingHistoryDto The updated history details.
+	 * @param historyId              The ID of the history to be updated.
+	 * @return ResponseEntity<ResponseDto> A response entity indicating the status of the operation.
+	 * @throws IllegalArgumentException When an invalid argument is provided.
+	 * @throws IllegalAccessException   When illegal access occurs.
+	 */
 	@PutMapping("/update/{historyId}")
 	public ResponseEntity<ResponseDto> updateHistory(@Valid @RequestBody UnderwritingHistoryDto underwritingHistoryDto,
 			@PathVariable Long historyId) throws IllegalArgumentException, IllegalAccessException {
@@ -49,6 +66,12 @@ public class UnderwritingHistoryController {
 
 	}
 	
+	/**
+	 * Fetches underwriting history by underwriting company ID.
+	 * 
+	 * @param uwcId The ID of the underwriting company.
+	 * @return ResponseEntity<List<UnderwritingHistoryDto>> A response entity containing a list of history records.
+	 */
 	@GetMapping("/fetch-by-uwcId/{uwcId}")
 	public ResponseEntity<List<UnderwritingHistoryDto>> fetchByUwcId(@PathVariable Long uwcId)
 	{
@@ -56,6 +79,12 @@ public class UnderwritingHistoryController {
 		.body(underwritingHistoryService.getByUwcId(uwcId));
 	}
 	
+	/**
+	 * Fetches underwriting history by loan ID.
+	 * 
+	 * @param loanId The ID of the loan.
+	 * @return ResponseEntity<UnderwritingHistoryDto> A response entity containing the history record.
+	 */
 	@GetMapping("/fetch-by-loanId/{loanId}")
 	public ResponseEntity<UnderwritingHistoryDto> fetchByLoanId(@PathVariable Integer loanId)
 	{
@@ -63,6 +92,11 @@ public class UnderwritingHistoryController {
 		.body(underwritingHistoryService.getByLoanId(loanId));
 	}
 	
+	/**
+	 * Fetches all underwriting history records.
+	 * 
+	 * @return ResponseEntity<List<UnderwritingHistoryDto>> A response entity containing a list of all history records.
+	 */
 	@GetMapping("/fetchAll")
 	public ResponseEntity<List<UnderwritingHistoryDto>> fetchAll()
 	{

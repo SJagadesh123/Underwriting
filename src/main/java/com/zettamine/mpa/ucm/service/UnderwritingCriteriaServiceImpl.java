@@ -20,6 +20,7 @@ import com.zettamine.mpa.ucm.repository.UnderwritingCriteriaRepository;
 import com.zettamine.mpa.ucm.service.clients.LoanProductFeignClient;
 import com.zettamine.mpa.ucm.utility.StringUtils;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -139,18 +140,54 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 
 			underwritingCriterias.add(underwritingCriteria);
 		}
-		
-		for(UnderwritingCriteria criteria : underwritingCriterias)
-		{
+
+		for (UnderwritingCriteria criteria : underwritingCriterias) {
 			UnderwritingCriteriaLoanProduct criteriaLoanProduct = new UnderwritingCriteriaLoanProduct();
-			
+
 			criteriaLoanProduct.setProdId(loanProdId);
 			criteriaLoanProduct.setUnderwritingCriteria(criteria);
-			
+
 			criteriaLoanProductRepository.save(criteriaLoanProduct);
 		}
-		
-	//	loanProductFeignClient.updateLoanProductStatus(loanProdId);
+
+		// loanProductFeignClient.updateLoanProductStatus(loanProdId);
+
+	}
+
+	@Override
+	@Transactional
+	public void removeCriteriaToLoanProd(List<String> criteriaNames, String loanProductName) {
+
+		String loanProdName = StringUtils.trimSpacesBetween(loanProductName.toUpperCase());
+
+		ResponseEntity<Integer> loanProductResponse = (ResponseEntity<Integer>) loanProductFeignClient
+				.getLoanProductIdByName(loanProductName);
+
+		Integer loanProdId = loanProductResponse.getBody();
+
+		if (loanProdId == null) {
+			throw new ResourceNotFoundException("Loan Product not fount with name : " + loanProdName);
+		}
+
+		List<UnderwritingCriteria> underwritingCriterias = new ArrayList<>();
+
+		for (String criteriaName : criteriaNames) {
+			String name = StringUtils.trimSpacesBetween(criteriaName.toUpperCase());
+
+			UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findByCriteriaName(name)
+					.orElseThrow(() -> new ResourceNotFoundException("Criteria not found with name : " + name));
+
+			underwritingCriterias.add(underwritingCriteria);
+		}
+
+		for (UnderwritingCriteria criteria : underwritingCriterias) {
+			UnderwritingCriteriaLoanProduct criteriaLoanProduct = new UnderwritingCriteriaLoanProduct();
+
+			criteriaLoanProduct.setProdId(loanProdId);
+			criteriaLoanProduct.setUnderwritingCriteria(criteria);
+
+			criteriaLoanProductRepository.delete(criteriaLoanProduct);
+		}
 
 	}
 }
