@@ -32,14 +32,14 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-#logging:
-#  file:
-#    name: D:\\logs\\underwriting-service.log
-#  pattern:
-#    console: "%d %-5level %logger : %msg%n" 
-#    file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"  
-#  level:
-#    ROOT: INFO  
+logging:
+  file:
+    name: D:\\logs\\underwriting-service.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n" 
+    file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"  
+  level:
+    ROOT: INFO  
     
 #eureka:
 # instance:
