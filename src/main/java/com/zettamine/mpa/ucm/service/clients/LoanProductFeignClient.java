@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@FeignClient(name = "loan-product-service", url="http://localhost:9010/api/v1/loan-product/product")
+@FeignClient(name = "loan-product-service", url = "http://localhost:9010/api/v1/loan-product/product")
 public interface LoanProductFeignClient {
 
 	@GetMapping("/fetch/loan-product-id/{prodName}")
-	public ResponseEntity<?> getLoanProductIdByName(@PathVariable ("prodName") String loanProductName);
-	
-//	@PutMapping("/update/loanProductStatus/{prodId}")
-//	public ResponseEntity<?> updateLoanProductStatus(@PathVariable("prodId") Integer prodId);
+	public ResponseEntity<?> getLoanProductIdByName(@PathVariable("prodName") String loanProductName);
+
+	@PutMapping("/update/loan-status/{productId}")
+	public ResponseEntity<Boolean> updateLoanProductStatus1(@PathVariable("prodId") Integer prodId);
 }

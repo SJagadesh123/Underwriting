@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.zettamine.mpa.ucm.dto.SearchResultDto;
 
-public class MyCustomResultExtractor implements ResultSetExtractor<Set<SearchResultDto>>{
+public class SearchCriteriaResultExtractor implements ResultSetExtractor<Set<SearchResultDto>>{
 
 	@Override
 	public Set<SearchResultDto> extractData(ResultSet rs) throws SQLException, DataAccessException {
