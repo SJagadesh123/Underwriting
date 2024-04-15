@@ -115,7 +115,7 @@ public class UnderwritingCriteriaController {
 
 	}
 	
-	@DeleteMapping("/add-criteria-to-loanProd")
+	@DeleteMapping("/delete-criteria-to-loanProd")
 	public ResponseEntity<ResponseDto> deleteCriteriaToProd(@Valid @RequestBody LoanProductCriteriaDto loanProductCriteriaDto)
 			throws IllegalArgumentException, IllegalAccessException {
 
