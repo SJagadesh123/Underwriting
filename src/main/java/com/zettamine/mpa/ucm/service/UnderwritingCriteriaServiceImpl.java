@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import com.zettamine.mpa.ucm.entities.UnderwritingCriteriaLoanProduct;
 import com.zettamine.mpa.ucm.exception.DuplicationException;
 import com.zettamine.mpa.ucm.exception.ResourceNotFoundException;
 import com.zettamine.mpa.ucm.mapper.UnderwritingCriteriaMapper;
+import com.zettamine.mpa.ucm.repository.SearchCriteriaRepository;
 import com.zettamine.mpa.ucm.repository.UnderwritingCriteriaLoanProductRepository;
 import com.zettamine.mpa.ucm.repository.UnderwritingCriteriaRepository;
 import com.zettamine.mpa.ucm.service.clients.LoanProductFeignClient;
@@ -30,6 +32,7 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 	private UnderwritingCriteriaRepository underwritingCriteriaRepository;
 	private UnderwritingCriteriaLoanProductRepository criteriaLoanProductRepository;
 	private LoanProductFeignClient loanProductFeignClient;
+	private SearchCriteriaRepository searchCriteriaRepository;
 
 	@Override
 	public void save(UnderwritingCriteriaDto underwritingCriteriaDto)
@@ -133,6 +136,9 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 		List<UnderwritingCriteria> underwritingCriterias = new ArrayList<>();
 
 		for (String criteriaName : criteriaNames) {
+			if (criteriaName == null) {
+				throw new NullPointerException("Please provide not null values");
+			}
 			String name = StringUtils.trimSpacesBetween(criteriaName.toUpperCase());
 
 			UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findByCriteriaName(name)
@@ -150,7 +156,7 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 			criteriaLoanProductRepository.save(criteriaLoanProduct);
 		}
 
-		// loanProductFeignClient.updateLoanProductStatus(loanProdId);
+		loanProductFeignClient.updateLoanProductStatus1(loanProdId);
 
 	}
 
@@ -172,6 +178,9 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 		List<UnderwritingCriteria> underwritingCriterias = new ArrayList<>();
 
 		for (String criteriaName : criteriaNames) {
+			if (criteriaName == null) {
+				throw new NullPointerException("Please provide not null values");
+			}
 			String name = StringUtils.trimSpacesBetween(criteriaName.toUpperCase());
 
 			UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findByCriteriaName(name)
@@ -189,5 +198,26 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 			criteriaLoanProductRepository.delete(criteriaLoanProduct);
 		}
 
+	}
+
+	@Override
+	public Set<Integer> getByCriterias(List<String> criteriaNames) {
+
+		return searchCriteriaRepository.getLoanProductByCriteria(criteriaNames);
+	}
+
+	@Override
+	public List<String> getAllCriteriaNames() {
+
+		List<UnderwritingCriteria> underwritingCriteriaList = underwritingCriteriaRepository.findAll();
+		
+		List<String> criteriaNames = new ArrayList<>();
+		
+		for(UnderwritingCriteria criteria : underwritingCriteriaList)
+		{
+			criteriaNames.add(criteria.getCriteriaName());
+		}
+		
+		return criteriaNames;
 	}
 }
