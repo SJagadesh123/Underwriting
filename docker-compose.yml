@@ -1,0 +1,42 @@
+services:
+  underwriting-ms-db:
+    image: postgres:latest
+    container_name: underwriting-ms-db
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: underwriting-ms-db
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "underwriting-ms-db"]
+      interval: 10s
+      timeout: 5s
+      retries: 1
+      start_period: 10s
+
+    networks:
+      - zettaloan
+
+  underwriting-ms:
+    image: underwriting-ms
+    container_name: underwriting-ms
+    ports:
+      - "9020:9020"
+    environment:
+      SPRING_APPLICATION_NAME: "underwriting-service"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://underwriting-ms-db:5432/underwriting-ms-db"
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: test
+      # EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8900/eureka/
+    depends_on:
+      underwriting-ms-db:
+        condition: service_healthy
+      # eureka-server:
+      #   condition: service_healthy
+    networks:
+      - zettaloan
+
+networks:
+  zettaloan:
+    driver: "bridge"
