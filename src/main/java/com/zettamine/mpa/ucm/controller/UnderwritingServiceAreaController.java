@@ -100,4 +100,8 @@ public class UnderwritingServiceAreaController {
 	public ResponseEntity<List<UnderwritingServiceAreaDto>> fetchAll() {
 		return ResponseEntity.status(HttpStatus.OK).body(serviceAreaService.getAll());
 	}
+	
+	
+	
+	
 }
