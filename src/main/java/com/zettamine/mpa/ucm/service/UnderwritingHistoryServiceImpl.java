@@ -99,7 +99,7 @@ public class UnderwritingHistoryServiceImpl implements IUnderwritingHistoryServi
 	public List<UnderwritingHistoryDto> getByUwcId(Long uwcId) {
 
 		UnderwritingCompany underwritingCompany = underwritingCompanyRepository.findById(uwcId)
-				.orElseThrow(() -> new ResourceNotFoundException("Comapny not found with Id : " + uwcId));
+				.orElseThrow(() -> new ResourceNotFoundException("Company not found with Id : " + uwcId));
 
 		List<UnderwritingHistory> underwritingHistories = underwritingCompany.getUnderwritingHistories();
 
@@ -109,7 +109,7 @@ public class UnderwritingHistoryServiceImpl implements IUnderwritingHistoryServi
 			UnderwritingHistoryDto dto = UnderwritingHistoryMapper.toDto(history, new UnderwritingHistoryDto());
 			dto.setUnderwritingCompanyName(history.getUnderwritingCompany().getName());
 
-			underwritingHistoryDto.add(dto);
+			underwritingHistoryDto.add(dto); 
 		}
 
 		return underwritingHistoryDto;

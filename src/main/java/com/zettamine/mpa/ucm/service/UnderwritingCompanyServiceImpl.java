@@ -116,9 +116,6 @@ public class UnderwritingCompanyServiceImpl implements IUnderwritingCompanyServi
 
 		List<UnderwritingCompany> listOfUwc = underwritingCompanyRepository.findAll();
 
-		if (listOfUwc.size() == 0) {
-			throw new ResourceNotFoundException("There are no company present");
-		}
 
 		List<UnderwritingCompanyDto> underwritingCompanyDtos = new ArrayList<>();
 
