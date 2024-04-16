@@ -224,19 +224,56 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 	@Override
 	public List<UnderwritingCriteriaDto> getByLoanId(Integer id) {
 
-		List<Serializable> ids = new ArrayList<>();
-		ids.add(id);
-		
-		List<UnderwritingCriteriaLoanProduct> list = criteriaLoanProductRepository.findAllById(ids);
-		
+		List<UnderwritingCriteriaLoanProduct> list = criteriaLoanProductRepository.findByProdId(id);
+
+
 		List<UnderwritingCriteriaDto> underwritingCriteriaDtos = new ArrayList<>();
-		
-		for(UnderwritingCriteriaLoanProduct criteriaLoanProduct : list)
-		{
-			UnderwritingCriteriaDto dto = UnderwritingCriteriaMapper.toDto(criteriaLoanProduct.getUnderwritingCriteria(), new UnderwritingCriteriaDto());
+
+		for (UnderwritingCriteriaLoanProduct criteriaLoanProduct : list) {
+			UnderwritingCriteriaDto dto = UnderwritingCriteriaMapper
+					.toDto(criteriaLoanProduct.getUnderwritingCriteria(), new UnderwritingCriteriaDto());
 			underwritingCriteriaDtos.add(dto);
 		}
-		
+
 		return underwritingCriteriaDtos;
+	}
+	
+	@Override
+	public void saveLoanProdCriteria(Integer prodctId, List<String> criterias) {
+		
+		List<String> criteriaProcess = new ArrayList<>();
+		criterias.forEach(criter -> criteriaProcess.add(StringUtils.trimSpacesBetween(criter).toUpperCase()));
+		
+		List<String> notExists = new ArrayList<>();
+		List<String> exists = new ArrayList<>();
+		
+		for(String criteria : criteriaProcess) {
+			Optional<UnderwritingCriteria> byCriteriaName = underwritingCriteriaRepository.findByCriteriaName(criteria);
+			if (byCriteriaName.isPresent()) {
+				exists.add(criteria);
+			}else {
+				notExists.add(criteria);
+			}
+		}
+		if (notExists.size()>0) {
+			throw new ResourceNotFoundException(String.format("Underwirting criteria not exists: ", notExists.toString()));
+		}
+		
+		List<UnderwritingCriteria> underwriteCriteria = new ArrayList<>();
+		for(String eachCriteriaName: exists) {
+			UnderwritingCriteria underwritingCriteria = underwritingCriteriaRepository.findByCriteriaName(eachCriteriaName).get();
+			underwriteCriteria.add(underwritingCriteria);
+		
+		}
+		for (UnderwritingCriteria underWritecriteria : underwriteCriteria) {
+			UnderwritingCriteriaLoanProduct criteriaLoanProduct = new UnderwritingCriteriaLoanProduct();
+
+			criteriaLoanProduct.setProdId(prodctId);
+			criteriaLoanProduct.setUnderwritingCriteria(underWritecriteria);
+
+			criteriaLoanProductRepository.save(criteriaLoanProduct);
+		}
+		
+		
 	}
 }

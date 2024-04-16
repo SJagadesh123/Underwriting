@@ -35,9 +35,9 @@ public class UnderwriterServiceImpl implements IUnderwriterService {
 			throw new ResourceNotFoundException("Company doesnt exist with name " + name);
 		}
 
-		if (underwriterRepository.findByAppraiserLicenceId(underwriterDto.getEmail()).isPresent()) {
+		if (underwriterRepository.findByUnderwriterLicenceId(underwriterDto.getUnderwriterLicenceId()).isPresent()) {
 			throw new DuplicationException(
-					"Underwriter already exists with Appraiser Licence Id : " + underwriterDto.getAppraiserLicenceId());
+					"Underwriter already exists with Underwriter Licence Id : " + underwriterDto.getUnderwriterLicenceId());
 		}
 
 		if (underwriterRepository.findByEmail(underwriterDto.getEmail()).isPresent()) {

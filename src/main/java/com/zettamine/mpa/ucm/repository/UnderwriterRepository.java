@@ -13,7 +13,7 @@ public interface UnderwriterRepository extends JpaRepository<Underwriter, Serial
 
 	Optional<Underwriter> findByPhone(String phone);
 
-	Optional<Underwriter> findByAppraiserLicenceId(String email);
+	Optional<Underwriter> findByUnderwriterLicenceId(String email);
 
 	
 }

@@ -30,7 +30,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1/underwriting/criteria")
 @AllArgsConstructor
 public class UnderwritingCriteriaController {
-	
+
 	/**
 	 * Service interface for managing underwriting criteria.
 	 */
@@ -40,7 +40,8 @@ public class UnderwritingCriteriaController {
 	 * Creates a new underwriting criteria.
 	 * 
 	 * @param underwritingCriteriaDto The criteria details to be saved.
-	 * @return ResponseEntity<ResponseDto> A response entity indicating the status of the operation.
+	 * @return ResponseEntity<ResponseDto> A response entity indicating the status
+	 *         of the operation.
 	 * @throws IllegalArgumentException When an invalid argument is provided.
 	 * @throws IllegalAccessException   When illegal access occurs.
 	 */
@@ -54,19 +55,21 @@ public class UnderwritingCriteriaController {
 				.body(new ResponseDto(AppConstants.STATUS_201, AppConstants.MESSAGE_201));
 
 	}
-	
+
 	/**
 	 * Updates an existing underwriting criteria.
 	 * 
 	 * @param underwritingCriteriaDto The updated criteria details.
 	 * @param id                      The ID of the criteria to be updated.
-	 * @return ResponseEntity<ResponseDto> A response entity indicating the status of the operation.
+	 * @return ResponseEntity<ResponseDto> A response entity indicating the status
+	 *         of the operation.
 	 * @throws IllegalArgumentException When an invalid argument is provided.
 	 * @throws IllegalAccessException   When illegal access occurs.
 	 */
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDto> updateCriteria(@Valid @RequestBody UnderwritingCriteriaDto underwritingCriteriaDto,
-			@PathVariable Long id) throws IllegalArgumentException, IllegalAccessException {
+	public ResponseEntity<ResponseDto> updateCriteria(
+			@Valid @RequestBody UnderwritingCriteriaDto underwritingCriteriaDto, @PathVariable Long id)
+			throws IllegalArgumentException, IllegalAccessException {
 
 		underwritingCriteriaService.update(id, underwritingCriteriaDto);
 
@@ -74,70 +77,88 @@ public class UnderwritingCriteriaController {
 				.body(new ResponseDto(AppConstants.STATUS_200, AppConstants.MESSAGE_200));
 
 	}
-	
+
 	/**
 	 * Fetches details of an underwriting criteria by ID.
 	 * 
 	 * @param id The ID of the criteria to fetch.
-	 * @return ResponseEntity<UnderwritingCriteriaDto> A response entity containing the fetched criteria details.
+	 * @return ResponseEntity<UnderwritingCriteriaDto> A response entity containing
+	 *         the fetched criteria details.
 	 */
 	@GetMapping("/fetch/{id}")
 	public ResponseEntity<UnderwritingCriteriaDto> fetch(@PathVariable Long id) {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.get(id));
 	}
-	
+
 	/**
 	 * Fetches details of all underwriting criteria.
 	 * 
-	 * @return ResponseEntity<List<UnderwritingCriteriaDto>> A response entity containing a list of all criteria details.
+	 * @return ResponseEntity<List<UnderwritingCriteriaDto>> A response entity
+	 *         containing a list of all criteria details.
 	 */
 	@GetMapping("/fetchAll")
 	public ResponseEntity<List<UnderwritingCriteriaDto>> fetchAll() {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getAll());
 	}
-	
+
 	/**
 	 * Adds criteria to a loan product.
 	 * 
 	 * @param loanProductCriteriaDto The criteria to be added to the loan product.
-	 * @return ResponseEntity<ResponseDto> A response entity indicating the status of the operation.
+	 * @return ResponseEntity<ResponseDto> A response entity indicating the status
+	 *         of the operation.
 	 * @throws IllegalArgumentException When an invalid argument is provided.
 	 * @throws IllegalAccessException   When illegal access occurs.
 	 */
 	@PostMapping("/add-criteria-to-loanProd")
-	public ResponseEntity<ResponseDto> addCriteriaToProd(@Valid @RequestBody LoanProductCriteriaDto loanProductCriteriaDto)
+	public ResponseEntity<ResponseDto> addCriteriaToProd(
+			@Valid @RequestBody LoanProductCriteriaDto loanProductCriteriaDto)
 			throws IllegalArgumentException, IllegalAccessException {
 
-		underwritingCriteriaService.addCriteriaToLoanProd(loanProductCriteriaDto.getCriteriaNames(), loanProductCriteriaDto.getProductName());
+		underwritingCriteriaService.addCriteriaToLoanProd(loanProductCriteriaDto.getCriteriaNames(),
+				loanProductCriteriaDto.getProductName());
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new ResponseDto(AppConstants.STATUS_201, AppConstants.MESSAGE_201));
 
 	}
-	
+
 	@DeleteMapping("/delete-criteria-to-loanProd")
-	public ResponseEntity<ResponseDto> deleteCriteriaToProd(@Valid @RequestBody LoanProductCriteriaDto loanProductCriteriaDto)
+	public ResponseEntity<ResponseDto> deleteCriteriaToProd(
+			@Valid @RequestBody LoanProductCriteriaDto loanProductCriteriaDto)
 			throws IllegalArgumentException, IllegalAccessException {
 
-		underwritingCriteriaService.removeCriteriaToLoanProd(loanProductCriteriaDto.getCriteriaNames(), loanProductCriteriaDto.getProductName());
+		underwritingCriteriaService.removeCriteriaToLoanProd(loanProductCriteriaDto.getCriteriaNames(),
+				loanProductCriteriaDto.getProductName());
 
-		return ResponseEntity.status(HttpStatus.OK) 
+		return ResponseEntity.status(HttpStatus.OK)
 				.body(new ResponseDto(AppConstants.STATUS_200, AppConstants.MESSAGE_200));
 
 	}
-	
-	@GetMapping("/get-loan-by-criteria-name")
+
+	@PostMapping("/get-loan-by-criteria-name")
 	public ResponseEntity<Set<Integer>> fetch(@RequestBody List<String> criteriaNames) {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getByCriterias(criteriaNames));
 	}
-	
+
 	@GetMapping("/fetchAll-criteria-names")
 	public ResponseEntity<List<String>> fetchAllCriteriaNames() {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getAllCriteriaNames());
 	}
-	
+
 	@GetMapping("/fetch-by-loan-id/{id}")
 	public ResponseEntity<List<UnderwritingCriteriaDto>> fetchByLoanId(@PathVariable Integer id) {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getByLoanId(id));
+	}
+
+	@PostMapping("/add-criteria-to-loanProd/{prodId}")
+	public ResponseEntity<ResponseDto> addCriteriaToLoanProd(@PathVariable("prodId") Integer productId,
+			@Valid @RequestBody List<String> loanProductCriteriaDto) {
+
+		underwritingCriteriaService.saveLoanProdCriteria(productId, loanProductCriteriaDto);
+
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new ResponseDto(AppConstants.STATUS_201, AppConstants.MESSAGE_201));
+
 	}
 }

@@ -26,8 +26,8 @@ public class Underwriter {
 	@Column(name = "underwriter_id")
 	private Long underwriterId;
 
-	@Column(name = "appraiser_licence_id", nullable = false, length = 10, unique = true)
-	private String appraiserLicenceId;
+	@Column(name = "underwriter_licence_id", nullable = false, length = 10, unique = true)
+	private String underwriterLicenceId;
 
 	@Column(name = "first_name", nullable = false, length = 50)
 	private String firstName;

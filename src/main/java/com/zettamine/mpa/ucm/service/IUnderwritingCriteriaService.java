@@ -24,4 +24,6 @@ public interface IUnderwritingCriteriaService {
 	List<String> getAllCriteriaNames();
 	
 	List<UnderwritingCriteriaDto> getByLoanId(Integer id);
+
+	void saveLoanProdCriteria(Integer prodctId, List<String> criterias);
 }

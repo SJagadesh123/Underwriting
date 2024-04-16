@@ -57,7 +57,7 @@ public class UnderwriterServiceTest {
 		underwritingCompany.setName("COMPANY NAME");
 
 		when(underwritingCompanyRepository.findByName(anyString())).thenReturn(Optional.of(underwritingCompany));
-		when(underwriterRepository.findByAppraiserLicenceId(anyString())).thenReturn(Optional.empty());
+		when(underwriterRepository.findByUnderwriterLicenceId(anyString())).thenReturn(Optional.empty());
 		when(underwriterRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 		when(underwriterRepository.findByPhone(anyString())).thenReturn(Optional.empty());
 
@@ -92,12 +92,12 @@ public class UnderwriterServiceTest {
 		underwritingCompany.setName("COMPANY NAME");
 
 		when(underwritingCompanyRepository.findByName(anyString())).thenReturn(Optional.of(underwritingCompany));
-		when(underwriterRepository.findByAppraiserLicenceId(anyString())).thenReturn(Optional.of(new Underwriter()));
+		when(underwriterRepository.findByUnderwriterLicenceId(anyString())).thenReturn(Optional.of(new Underwriter()));
 
 		// Act + Assert
 		DuplicationException exception = assertThrows(DuplicationException.class,
 				() -> underwriterService.save(underwriterDto));
-		assertEquals("Underwriter already exists with Appraiser Licence Id : " + underwriterDto.getAppraiserLicenceId(),
+		assertEquals("Underwriter already exists with Appraiser Licence Id : " + underwriterDto.getUnderwriterLicenceId(),
 				exception.getMessage());
 	}
 
@@ -113,7 +113,7 @@ public class UnderwriterServiceTest {
 		underwritingCompany.setName("COMPANY NAME");
 
 		when(underwritingCompanyRepository.findByName(anyString())).thenReturn(Optional.of(underwritingCompany));
-		when(underwriterRepository.findByAppraiserLicenceId(anyString())).thenReturn(Optional.empty());
+		when(underwriterRepository.findByUnderwriterLicenceId(anyString())).thenReturn(Optional.empty());
 		when(underwriterRepository.findByEmail(anyString())).thenReturn(Optional.of(new Underwriter()));
 
 		// Act + Assert
@@ -134,7 +134,7 @@ public class UnderwriterServiceTest {
 		underwritingCompany.setName("COMPANY NAME");
 
 		when(underwritingCompanyRepository.findByName(anyString())).thenReturn(Optional.of(underwritingCompany));
-		when(underwriterRepository.findByAppraiserLicenceId(anyString())).thenReturn(Optional.empty());
+		when(underwriterRepository.findByUnderwriterLicenceId(anyString())).thenReturn(Optional.empty());
 		when(underwriterRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 		when(underwriterRepository.findByPhone(anyString())).thenReturn(Optional.of(new Underwriter()));
 
