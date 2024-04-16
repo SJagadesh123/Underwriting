@@ -25,7 +25,7 @@ spring:
     name: underwriting-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    password: akash
+    password: 1234
     url: 'jdbc:postgresql://localhost:5432/underwritingdb?currentSchema=mpa'
     username: postgres
   jpa:

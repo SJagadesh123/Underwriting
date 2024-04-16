@@ -18,7 +18,7 @@ public class UnderwriterDto {
 	
 	@NotBlank(message = AppConstants.PROVIDE_VALUE)
 	@Pattern(regexp = AppConstants.LICENCE_ID_REGEX)
-    private String appraiserLicenceId;
+    private String underwriterLicenceId;
 	
 	@NotBlank(message = AppConstants.PROVIDE_VALUE)
 	@Pattern(regexp = AppConstants.NAME_REGEX, message = AppConstants.VALID_NAME)

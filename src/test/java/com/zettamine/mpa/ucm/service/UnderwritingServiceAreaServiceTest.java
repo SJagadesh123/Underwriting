@@ -12,8 +12,10 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +53,7 @@ public class UnderwritingServiceAreaServiceTest {
 		UnderwritingServiceAreaDto underwritingServiceAreaDto = new UnderwritingServiceAreaDto();
 		underwritingServiceAreaDto.setUnderwritingCompanyName("company name");
 		// Initialize underwritingServiceAreaDto
-		List<ServiceAreaDto> serviceAreaDto = new ArrayList<>();
+		Set<ServiceAreaDto> serviceAreaDto = new HashSet<>();
 		underwritingServiceAreaDto.setServiceArea(serviceAreaDto);
 		UnderwritingCompany underwritingCompany = new UnderwritingCompany();
 		// Initialize underwritingCompany

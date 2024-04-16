@@ -62,7 +62,7 @@ public class SearchCriteriaRepositoryImpl implements SearchCriteriaRepository {
 	public Set<Integer> getLoanProductByCriteria(List<String> criteriaNames) {
 
 		String query = "select prod_id from mpa.underwriting_criteria_loan_prod uctp inner join "
-				+ "mpa.underwriting_criteria uct on uctp.criteria_id = uct.criteria_id where 1=1 "
+				+ "mpa.underwriting_criteria uct on uctp.criteria_id = uct.criteria_id where 1=1 and "
 				+ "uct.criteria_name in(";
 
 		int count = 0;
@@ -72,6 +72,7 @@ public class SearchCriteriaRepositoryImpl implements SearchCriteriaRepository {
 				String name = StringUtils.trimSpacesBetween(criteriaName).toUpperCase();
 
 				query = query + "'" + name + "'";
+				count++;
 			}
 
 			if (count != criteriaNames.size()) {

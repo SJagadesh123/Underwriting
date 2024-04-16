@@ -100,7 +100,7 @@ public class UnderwritingCompanyController {
 	 * @param searchCriteriaDto The search criteria.
 	 * @return ResponseEntity<Set<SearchResultDto>> A response entity containing a set of search results.
 	 */
-	@GetMapping("/fetch-by-criteria")
+	@PostMapping("/fetch-by-criteria")
 	public ResponseEntity<Set<SearchResultDto>> getBySearchCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCompanyService.getByCriteria(searchCriteriaDto));
