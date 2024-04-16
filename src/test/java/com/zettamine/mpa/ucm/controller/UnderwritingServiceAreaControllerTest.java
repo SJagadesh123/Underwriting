@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +55,7 @@ public class UnderwritingServiceAreaControllerTest {
 
     	// Initialize the serviceArea list if it's null
     	if (serviceAreaDto.getServiceArea() == null) {
-    	    serviceAreaDto.setServiceArea(new ArrayList<>());
+    	    serviceAreaDto.setServiceArea(new HashSet<>());
     	}
 
     	ServiceAreaDto serviceArea = new ServiceAreaDto();
