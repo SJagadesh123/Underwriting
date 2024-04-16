@@ -135,4 +135,9 @@ public class UnderwritingCriteriaController {
 	public ResponseEntity<List<String>> fetchAllCriteriaNames() {
 		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getAllCriteriaNames());
 	}
+	
+	@GetMapping("/fetch-by-loan-id/{id}")
+	public ResponseEntity<List<UnderwritingCriteriaDto>> fetchByLoanId(@PathVariable Integer id) {
+		return ResponseEntity.status(HttpStatus.OK).body(underwritingCriteriaService.getByLoanId(id));
+	}
 }

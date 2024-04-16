@@ -22,4 +22,6 @@ public interface IUnderwritingCriteriaService {
 	Set<Integer> getByCriterias(List<String> criteriaNames);
 
 	List<String> getAllCriteriaNames();
+	
+	List<UnderwritingCriteriaDto> getByLoanId(Integer id);
 }

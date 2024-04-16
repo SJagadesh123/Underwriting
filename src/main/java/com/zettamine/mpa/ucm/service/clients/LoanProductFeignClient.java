@@ -13,5 +13,5 @@ public interface LoanProductFeignClient {
 	public ResponseEntity<?> getLoanProductIdByName(@PathVariable("prodName") String loanProductName);
 
 	@PutMapping("/update/loan-status/{productId}")
-	public ResponseEntity<Boolean> updateLoanProductStatus1(@PathVariable("prodId") Integer prodId);
+	public ResponseEntity<Boolean> updateLoanProductStatus1(@PathVariable("productId") Integer prodId);
 }
