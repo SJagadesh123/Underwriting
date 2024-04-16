@@ -157,7 +157,7 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 			criteriaLoanProductRepository.save(criteriaLoanProduct);
 		}
 
-		loanProductFeignClient.updateLoanProductStatus1(loanProdId);
+		loanProductFeignClient.updateLoanProductStatus(loanProdId);
 
 	}
 

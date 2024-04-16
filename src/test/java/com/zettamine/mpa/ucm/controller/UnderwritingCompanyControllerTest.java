@@ -161,7 +161,7 @@ public class UnderwritingCompanyControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(searchCriteriaDto)))
                 .andExpect(status().isOk())
-                // Add more assertions based on the expected behavior
+                
                 .andExpect(jsonPath("$").isArray());
                 // You can add more assertions to verify the content of the response
     }

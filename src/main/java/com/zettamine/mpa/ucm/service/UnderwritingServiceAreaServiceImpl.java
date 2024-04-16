@@ -35,7 +35,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 			throws IllegalArgumentException, IllegalAccessException {
 		String name = StringUtils.trimSpacesBetween(underwritingServiceAreaDto.getUnderwritingCompanyName());
 		Optional<UnderwritingCompany> uwc = underwritingCompanyRepository.findByName(name.toUpperCase());
-
+ 
 		if (uwc.isEmpty()) {
 			throw new ResourceNotFoundException("Company doesnt exist with name " + name);
 		}
@@ -55,7 +55,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 			List<UnderwritingServiceArea> list = underwritingServiceAreaRepository.findAll(Example.of(entity));
 
 			if (list.size() > 0) {
-				throw new DuplicationException("Duplicate Service areas are present, please check and re enter");
+				throw new DuplicationException("Duplicate Service areas are present - " +serviceArea.toString());
 			}
 
 			underwritingServiceAreas.add(entity);
@@ -110,7 +110,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 		List<UnderwritingServiceArea> list = underwritingServiceAreaRepository.findAll(Example.of(underwritingServiceArea));
 
 		if (list.size() > 0) {
-			throw new DuplicationException("Duplicate Service areas are present, please check and re enter");
+			throw new DuplicationException("Duplicate Service areas are present - " +serviceAreaDto.toString() );
 		}
 
 		underwritingServiceArea.setServiceAreaId(serviceAreaId);

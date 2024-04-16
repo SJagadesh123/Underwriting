@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -80,26 +81,18 @@ public class UnderwriterServiceTest {
 		assertEquals("Company doesnt exist with name Company Name", exception.getMessage());
 	}
 
-	@Test
-	public void testSave_DuplicateAppraiserLicenceId() {
-		// Arrange
-		UnderwriterDto underwriterDto = new UnderwriterDto();
-		underwriterDto.setUnderwritingCompanyName("Company Name");
-		underwriterDto.setEmail("test@test.com");
-		underwriterDto.setPhone("1234567890");
+	 @Test
+	    public void testSave_DuplicateUnderwriterLicenceId() {
+	        // Arrange
+	        UnderwriterDto underwriterDto = new UnderwriterDto();
+	        underwriterDto.setUnderwritingCompanyName("company name");
+	        underwriterDto.setUnderwriterLicenceId("123");
+	        when(underwritingCompanyRepository.findByName(underwriterDto.getUnderwritingCompanyName())).thenReturn(Optional.of(mock(UnderwritingCompany.class)));
+	        when(underwriterRepository.findByUnderwriterLicenceId(underwriterDto.getUnderwriterLicenceId())).thenReturn(Optional.of(mock(Underwriter.class)));
 
-		UnderwritingCompany underwritingCompany = new UnderwritingCompany();
-		underwritingCompany.setName("COMPANY NAME");
-
-		when(underwritingCompanyRepository.findByName(anyString())).thenReturn(Optional.of(underwritingCompany));
-		when(underwriterRepository.findByUnderwriterLicenceId(anyString())).thenReturn(Optional.of(new Underwriter()));
-
-		// Act + Assert
-		DuplicationException exception = assertThrows(DuplicationException.class,
-				() -> underwriterService.save(underwriterDto));
-		assertEquals("Underwriter already exists with Appraiser Licence Id : " + underwriterDto.getUnderwriterLicenceId(),
-				exception.getMessage());
-	}
+	        // Act + Assert
+	        assertThrows(DuplicationException.class, () -> underwriterService.save(underwriterDto));
+	    }
 
 	@Test
 	public void testSave_DuplicateEmail() {

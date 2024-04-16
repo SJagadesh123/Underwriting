@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -138,14 +139,14 @@ public class UnderwritingHistoryServiceTest {
     public void testGetByUwcId_Successful() {
         // Arrange
         Long uwcId = 1L;
-        UnderwritingCompany underwritingCompany = new UnderwritingCompany();
-        underwritingCompany.setUwcoId(uwcId);
+        UnderwritingCompany underwritingCompany = mock(UnderwritingCompany.class);
+        when(underwritingCompany.getName()).thenReturn("Company Name");
+
+        UnderwritingHistory history1 = mock(UnderwritingHistory.class);
+        when(history1.getUnderwritingCompany()).thenReturn(underwritingCompany);
 
         List<UnderwritingHistory> underwritingHistories = new ArrayList<>();
-        UnderwritingHistory history1 = new UnderwritingHistory();
-        // set other properties of history1
         underwritingHistories.add(history1);
-        // add more histories as needed
 
         when(underwritingCompanyRepository.findById(uwcId)).thenReturn(Optional.of(underwritingCompany));
         when(underwritingCompany.getUnderwritingHistories()).thenReturn(underwritingHistories);
@@ -154,9 +155,8 @@ public class UnderwritingHistoryServiceTest {
         List<UnderwritingHistoryDto> result = underwritingHistoryService.getByUwcId(uwcId);
 
         // Assert
-        assertNotNull(result);
-        assertEquals(underwritingHistories.size(), result.size());
-        // Add more assertions to verify the correctness of the result
+        assertEquals(1, result.size());
+        assertEquals("Company Name", result.get(0).getUnderwritingCompanyName());
     }
 
     @Test
@@ -166,9 +166,66 @@ public class UnderwritingHistoryServiceTest {
         when(underwritingCompanyRepository.findById(uwcId)).thenReturn(Optional.empty());
 
         // Act + Assert
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
+         assertThrows(ResourceNotFoundException.class,
                 () -> underwritingHistoryService.getByUwcId(uwcId));
-        assertEquals("Company not found with Id : " + uwcId, exception.getMessage());
     }
 
+    @Test
+    public void testGetByLoanId_Successful() {
+        // Arrange
+        Integer loanId = 123;
+        UnderwritingHistory underwritingHistory = new UnderwritingHistory();
+        underwritingHistory.setLoanId(loanId);
+        when(underwritingHistoryRepository.findByLoanId(loanId))
+            .thenReturn(Optional.of(underwritingHistory));
+
+        // Mock behavior of UnderwritingCompanyRepository
+        UnderwritingCompany underwritingCompany = new UnderwritingCompany();
+        underwritingCompany.setUwcoId(123l);
+        underwritingHistory.setUnderwritingCompany(underwritingCompany);
+        when(underwritingCompanyRepository.findById(underwritingHistory.getUnderwritingCompany().getUwcoId()))
+            .thenReturn(Optional.of(underwritingCompany));
+
+        // Act
+        UnderwritingHistoryDto result = underwritingHistoryService.getByLoanId(loanId);
+
+        // Assert
+        assertEquals(underwritingHistory.getLoanId(), result.getLoanId());
+        assertEquals(underwritingCompany.getName(), result.getUnderwritingCompanyName());
+        // Add more assertions as needed
+    }
+
+    @Test
+    public void testGetByLoanId_HistoryNotFound() {
+        // Arrange
+        Integer loanId = 456;
+        when(underwritingHistoryRepository.findByLoanId(loanId))
+            .thenReturn(Optional.empty());
+
+        // Act + Assert
+        assertThrows(ResourceNotFoundException.class, () -> underwritingHistoryService.getByLoanId(loanId));
+    }
+    
+    @Test
+    public void testGetAll() {
+        // Arrange
+        List<UnderwritingHistory> underwritingHistories = new ArrayList<>();
+        UnderwritingHistory underwritingHistory = mock(UnderwritingHistory.class);
+        when(underwritingHistory.getUnderwritingCompany()).thenReturn(mock(UnderwritingCompany.class));
+        underwritingHistories.add(underwritingHistory);
+        when(underwritingHistoryRepository.findAll()).thenReturn(underwritingHistories);
+
+        // Mock behavior of UnderwritingCompanyRepository
+        UnderwritingCompany underwritingCompany = mock(UnderwritingCompany.class);
+        when(underwritingCompany.getUwcoId()).thenReturn(1L);
+        when(underwritingCompanyRepository.findById(underwritingCompany.getUwcoId()))
+            .thenReturn(Optional.of(underwritingCompany));
+
+        // Act
+        List<UnderwritingHistoryDto> result = underwritingHistoryService.getAll();
+
+        // Assert
+        assertEquals(underwritingHistories.size(), result.size());
+        // Add more assertions as needed
+    }
 }

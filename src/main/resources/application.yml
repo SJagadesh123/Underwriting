@@ -7,7 +7,8 @@ spring:
     name: underwriting-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    password: akash
+    password: 1234
+
     url: 'jdbc:postgresql://localhost:5432/underwritingdb'
     username: postgres
   jpa:
@@ -32,3 +33,5 @@ eureka:
    register-with-eureka: true
    serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+         
+
