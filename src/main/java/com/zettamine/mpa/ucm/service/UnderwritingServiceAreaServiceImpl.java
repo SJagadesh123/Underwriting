@@ -2,8 +2,10 @@ package com.zettamine.mpa.ucm.service;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 		}
 		UnderwritingCompany underwritingCompany = uwc.get();
 
-		List<ServiceAreaDto> serviceAreas = underwritingServiceAreaDto.getServiceArea();
+		Set<ServiceAreaDto> serviceAreas = underwritingServiceAreaDto.getServiceArea();
 
 		List<UnderwritingServiceArea> underwritingServiceAreas = new ArrayList<>();
 
@@ -124,7 +126,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 
 		List<UnderwritingServiceArea> serviceAreas = underwritingCompany.getServiceAreas();
 
-		List<ServiceAreaDto> serviceAreaDtos = new ArrayList<>();
+		Set<ServiceAreaDto> serviceAreaDtos = new HashSet<>();
 
 		for (UnderwritingServiceArea serviceArea : serviceAreas) {
 			serviceAreaDtos.add(UnderwritingServiceAreaMapper.toDto(serviceArea, new ServiceAreaDto()));
@@ -145,7 +147,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 		UnderwritingServiceArea serviceArea = underwritingServiceAreaRepository.findById(serviceAreaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Service Area not found with Id : " + serviceAreaId));
 
-		List<ServiceAreaDto> serviceAreaDtos = new ArrayList<>();
+		Set<ServiceAreaDto> serviceAreaDtos = new HashSet<>();
 
 		serviceAreaDtos.add(UnderwritingServiceAreaMapper.toDto(serviceArea, new ServiceAreaDto()));
 
@@ -167,7 +169,7 @@ public class UnderwritingServiceAreaServiceImpl implements IUnderwritingServiceA
 
 		for (UnderwritingServiceArea underwritingServiceArea : underwritingServiceAreas) {
 
-			List<ServiceAreaDto> serviceAreaDtos = new ArrayList<>();
+			Set<ServiceAreaDto> serviceAreaDtos = new HashSet<>();
 
 			serviceAreaDtos.add(UnderwritingServiceAreaMapper.toDto(underwritingServiceArea, new ServiceAreaDto()));
 
