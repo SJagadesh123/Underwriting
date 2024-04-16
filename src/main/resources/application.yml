@@ -1,21 +1,3 @@
-#spring:
-#  application:
-#    name: underwriting
-#
-#  jpa:
-#    database-platform: org.hibernate.dialect.H2Dialect
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#  datasource:
-#      driver-class-name: org.h2.Driver
-#      url: jdbc:h2:mem:underwritingdb
-#      username: admin
-#      password: 123 
-#
-#server:
-#  port: 8020
-#  
 server:
   port: 9020
   error:
@@ -25,8 +7,8 @@ spring:
     name: underwriting-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    password: 1234
-    url: 'jdbc:postgresql://localhost:5432/underwritingdb?currentSchema=mpa'
+    password: akash
+    url: 'jdbc:postgresql://localhost:5432/underwritingdb'
     username: postgres
   jpa:
     hibernate:
@@ -41,13 +23,12 @@ logging:
   level:
     ROOT: INFO  
     
-#eureka:
-# instance:
-#  prefer-ip-address: true
-#  appname: underwriting-service
-# client:
-#   fetch-registry: true
-#   registerWithEureka: true
-#   serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
-#          
+eureka:
+ instance:
+  prefer-ip-address: true
+  appname: underwriting-service
+ client:
+   fetch-registry: true
+   register-with-eureka: true
+   serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

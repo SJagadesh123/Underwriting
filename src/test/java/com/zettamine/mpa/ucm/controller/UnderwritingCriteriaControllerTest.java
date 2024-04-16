@@ -224,6 +224,8 @@ public class UnderwritingCriteriaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
                 // Add more assertions to verify the content of the response
+        
+        
     }
 
 
