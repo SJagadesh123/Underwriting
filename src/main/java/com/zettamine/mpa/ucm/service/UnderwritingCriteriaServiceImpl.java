@@ -1,6 +1,7 @@
 
 package com.zettamine.mpa.ucm.service;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -210,14 +211,32 @@ public class UnderwritingCriteriaServiceImpl implements IUnderwritingCriteriaSer
 	public List<String> getAllCriteriaNames() {
 
 		List<UnderwritingCriteria> underwritingCriteriaList = underwritingCriteriaRepository.findAll();
-		
+
 		List<String> criteriaNames = new ArrayList<>();
-		
-		for(UnderwritingCriteria criteria : underwritingCriteriaList)
-		{
+
+		for (UnderwritingCriteria criteria : underwritingCriteriaList) {
 			criteriaNames.add(criteria.getCriteriaName());
 		}
-		
+
 		return criteriaNames;
+	}
+
+	@Override
+	public List<UnderwritingCriteriaDto> getByLoanId(Integer id) {
+
+		List<Serializable> ids = new ArrayList<>();
+		ids.add(id);
+		
+		List<UnderwritingCriteriaLoanProduct> list = criteriaLoanProductRepository.findAllById(ids);
+		
+		List<UnderwritingCriteriaDto> underwritingCriteriaDtos = new ArrayList<>();
+		
+		for(UnderwritingCriteriaLoanProduct criteriaLoanProduct : list)
+		{
+			UnderwritingCriteriaDto dto = UnderwritingCriteriaMapper.toDto(criteriaLoanProduct.getUnderwritingCriteria(), new UnderwritingCriteriaDto());
+			underwritingCriteriaDtos.add(dto);
+		}
+		
+		return underwritingCriteriaDtos;
 	}
 }
