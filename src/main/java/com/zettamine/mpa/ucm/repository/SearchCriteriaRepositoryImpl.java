@@ -26,8 +26,8 @@ public class SearchCriteriaRepositoryImpl implements SearchCriteriaRepository {
 	public Set<SearchResultDto> getByCriteria(SearchCriteriaDto searchCriteria) {
 
 		String query = "SELECT uc.uwco_id AS companyId," + " uc.name," + " uc.phone," + " uc.email," + " uc.website,"
-				+ " uc.notes," + " uc.uw_claim_process AS uwClaimProcess" + " FROM mpa.underwriting_company uc"
-				+ " INNER JOIN mpa.underwriting_service_area usa ON uc.uwco_id = usa.uwco_id" + " WHERE 1=1 ";
+				+ " uc.notes," + " uc.uw_claim_process AS uwClaimProcess" + " FROM underwriting_company uc"
+				+ " INNER JOIN underwriting_service_area usa ON uc.uwco_id = usa.uwco_id" + " WHERE 1=1 ";
 
 		if (searchCriteria.getCompanyName() != null) {
 			query = query + " and uc.name like '%"
@@ -61,8 +61,8 @@ public class SearchCriteriaRepositoryImpl implements SearchCriteriaRepository {
 	@Override
 	public Set<Integer> getLoanProductByCriteria(List<String> criteriaNames) {
 
-		String query = "select prod_id from mpa.underwriting_criteria_loan_prod uctp inner join "
-				+ "mpa.underwriting_criteria uct on uctp.criteria_id = uct.criteria_id where 1=1 and "
+		String query = "select prod_id from underwriting_criteria_loan_prod uctp inner join "
+				+ "underwriting_criteria uct on uctp.criteria_id = uct.criteria_id where 1=1 and "
 				+ "uct.criteria_name in(";
 
 		int count = 0;
