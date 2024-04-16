@@ -1,6 +1,7 @@
 package com.zettamine.mpa.ucm.dto;
 
 import java.util.List;
+import java.util.Set;
 
 import com.zettamine.mpa.ucm.constants.AppConstants;
 
@@ -20,6 +21,6 @@ public class UnderwritingServiceAreaDto {
 	@Pattern(regexp = AppConstants.COMPANY_NAME_REGEX, message = AppConstants.VALID_NAME)
 	private String underwritingCompanyName;
 	@Valid
-	private List<ServiceAreaDto> serviceArea;
+	private Set<ServiceAreaDto> serviceArea;
 
 }
